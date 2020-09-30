@@ -5,7 +5,7 @@ namespace MongoDotNet.Repository.Books
 {
     public class BookstoreDatabaseSettings : IMongoDatabaseSettings
     {
-        public String BooksCollectionName { get; set; }
+        public String CollectionName { get; set; }
         public String ConnectionString { get; set; }
         public String DatabaseName { get; set; }
     }

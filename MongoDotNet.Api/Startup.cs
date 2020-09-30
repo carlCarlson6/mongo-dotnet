@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using MongoDotNet.Core.Repository;
 using MongoDotNet.Repository.Books;
+using MongoDotNet.Services;
 
 namespace MongoDotNet.Api
 {
@@ -32,6 +33,8 @@ namespace MongoDotNet.Api
                 When injected, the interface instance resolves to a BookstoreDatabaseSettings object.
             */
             services.AddSingleton<IMongoDatabaseSettings>(serviceProvider => serviceProvider.GetRequiredService<IOptions<BookstoreDatabaseSettings>>().Value);
+
+            services.AddSingleton<BookServices>();
 
             services.AddControllers();
         }

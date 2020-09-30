@@ -14,5 +14,14 @@ namespace MongoDotNet.Repository.Books.Models
         public float Price { get; set; }
         public String Category { get; set; }
         public String Author { get; set; }
+ 
+        public BookModel(IBook book) 
+        {
+            this.Id = book.Id;
+            this.Name = book.Name;
+            this.Price = book.Price;
+            this.Category = book.Category;
+            this.Author = book.Author;
+        }
     }
 }

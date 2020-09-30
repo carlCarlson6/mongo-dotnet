@@ -6,6 +6,7 @@ using MongoDotNet.Core.Services;
 using MongoDotNet.Repository.Books.Models;
 using System.Linq;
 using System;
+using MongoDB.Bson;
 
 namespace MongoDotNet.Services
 {
@@ -21,17 +22,20 @@ namespace MongoDotNet.Services
             this.booksMongoCollection = database.GetCollection<BookModel>(settings.CollectionName);
         }
 
-        public List<IBook> Read() {
+        public List<IBook> Read() 
+        {
             IEnumerable<IBook> books = this.booksMongoCollection.Find(book => true).ToList();
             return books.ToList();
         }
 
-        public IBook Read(String id) {
+        public IBook Read(String id) 
+        {
             IBook bookFounded = this.booksMongoCollection.Find(book => book.Id == id).FirstOrDefault();
             return bookFounded;
         }
 
-        public IBook Create(IBook book) {
+        public IBook Create(IBook book) 
+        {
             this.booksMongoCollection.InsertOne(new BookModel(book));
             return book;
         }

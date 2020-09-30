@@ -1,0 +1,18 @@
+{
+    "BookstoreDatabaseSetting": {
+      "BooksCollectionName": "Books",
+      "ConnectionString": "<mongo db connection string>",
+      "DatabaseName": "BookstoreDb"
+    },
+  
+    "Logging": {
+      "LogLevel": {
+        "Default": "Information",
+        "Microsoft": "Warning",
+        "Microsoft.Hosting.Lifetime": "Information"
+      }
+    },
+  
+    "AllowedHosts": "*"
+  }
+  

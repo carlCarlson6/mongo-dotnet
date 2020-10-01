@@ -1,11 +1,10 @@
-using System;
-using System.ComponentModel;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using MongoDotNet.Common;
 using MongoDotNet.Core.Models;
 using MongoDotNet.Core.Repository;
 using MongoDotNet.Repository.DatabaseSettings;
@@ -39,6 +38,7 @@ namespace MongoDotNet.Api
             services.AddSingleton<IMongoDatabaseSettings<IBook>, BookstoreDatabaseSettings>(serviceProvider => serviceProvider.GetRequiredService<IOptions<BookstoreDatabaseSettings>>().Value);
             services.AddSingleton<IMongoDatabaseSettings<IUser>, UsersDatabaseSettings>(serviceProvider => serviceProvider.GetRequiredService<IOptions<UsersDatabaseSettings>>().Value);
 
+            services.AddSingleton<PasswordUtils>();
 
             services.AddSingleton<BookServices>();
             services.AddSingleton<BookServices>();

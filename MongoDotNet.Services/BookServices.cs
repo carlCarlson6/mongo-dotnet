@@ -17,8 +17,14 @@ namespace MongoDotNet.Services
         {
             MongoClient client = new MongoClient(settings.ConnectionString);
             IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
-            this.booksMongoCollection = database.GetCollection<BookModel>(settings.CollectionName);
-            
+            this.booksMongoCollection = database.GetCollection<BookModel>(settings.CollectionName);  
+        }
+
+        public IBook Create(IBook book) 
+        {
+            book.Id = ObjectId.GenerateNewId().ToString();
+            this.booksMongoCollection.InsertOne(new BookModel(book));
+            return book;
         }
 
         public List<IBook> Read() 
@@ -33,20 +39,13 @@ namespace MongoDotNet.Services
             return bookFounded;
         }
 
-        public IBook Create(IBook book) 
-        {
-            book.Id = ObjectId.GenerateNewId().ToString();
-            this.booksMongoCollection.InsertOne(new BookModel(book));
-            return book;
-        }
-
         public IBook Update(IBook bookToUpdate)
         {
             ReplaceOneResult result = this.booksMongoCollection.ReplaceOne<BookModel>(book => book.Id == bookToUpdate.Id, new BookModel(bookToUpdate));
             return bookToUpdate;
         }
 
-        public void Remove(string id)
+        public void Remove(String id)
         {
             this.booksMongoCollection.DeleteOne(book => book.Id == id);
         }

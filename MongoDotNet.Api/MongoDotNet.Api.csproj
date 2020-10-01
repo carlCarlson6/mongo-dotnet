@@ -4,6 +4,7 @@
     <ProjectReference Include="..\MongoDotNet.Repository\MongoDotNet.Repository.csproj" />
     <ProjectReference Include="..\MongoDotNet.Core\MongoDotNet.Core.csproj" />
     <ProjectReference Include="..\MongoDotNet.Services\MongoDotNet.Services.csproj" />
+    <ProjectReference Include="..\MongoDotNet.Common\MongoDotNet.Common.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

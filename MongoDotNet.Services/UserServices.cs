@@ -1,51 +1,61 @@
 using System;
 using System.Collections.Generic;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDotNet.Core.Models;
 using MongoDotNet.Core.Repository;
 using MongoDotNet.Core.Services;
 using MongoDotNet.Repository.Models;
+using System.Linq;
+using MongoDotNet.Common;
 
 namespace MongoDotNet.Services
 {
-    public class UserServices : IUserService
+    public class UserServices : ICrudService<IUser>
+    {
     {    
         private readonly IMongoCollection<UserModel> usersMongoCollection;
-        public UserServices(IMongoDatabaseSettings<IUser> settings) 
+        private readonly PasswordUtils passwordUtils;
+        public UserServices(IMongoDatabaseSettings<IUser> settings, PasswordUtils passwordUtils) 
         {
             MongoClient client = new MongoClient(settings.ConnectionString);
             IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
             this.usersMongoCollection = database.GetCollection<UserModel>(settings.CollectionName);
+
+            this.passwordUtils = passwordUtils;
         }
 
-        public void Authenticate()
+        public IUser Create(IUser user)
         {
-            throw new NotImplementedException();
-        }
+            user.Id = ObjectId.GenerateNewId().ToString(); 
+            user.Password = this.passwordUtils.EncryptPassword(user.Password);
 
-        public IUser Create(IUser entity)
-        {
-            throw new NotImplementedException();
+            this.usersMongoCollection.InsertOne(new UserModel(user));
+            return user;
         }
 
         public List<IUser> Read()
         {
-            throw new NotImplementedException();
+            IEnumerable<IUser> users = this.usersMongoCollection.Find(user => true).ToList();
+            return users.ToList();
         }
 
-        public IUser Read(string id)
+        public IUser Read(String id)
         {
-            throw new NotImplementedException();
+            IUser userFounded = this.usersMongoCollection.Find(user => user.Id == id).FirstOrDefault();
+            return userFounded;
         }
 
-        public void Remove(string id)
+        public IUser Update(IUser userToUpdate)
         {
-            throw new NotImplementedException();
+            ReplaceOneResult result = this.usersMongoCollection.ReplaceOne<UserModel>(user => user.Id == userToUpdate.Id, new UserModel(userToUpdate));
+            return userToUpdate;
         }
 
-        public IUser Update(IUser entityToUpdate)
+        public void Remove(String id)
         {
-            throw new NotImplementedException();
+            this.usersMongoCollection.DeleteOne(user => user.Id == id);
         }
+
     }
 }

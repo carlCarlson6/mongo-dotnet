@@ -10,8 +10,7 @@ namespace MongoDotNet.Api.Controllers
     [Route("api/[controller]")]
     public class BookController: ControllerBase 
     {
-        private readonly BookServices bookServices;
-    
+        private readonly BookServices bookServices;    
         public BookController(BookServices bookServices)
         {
             this.bookServices = bookServices;
@@ -21,7 +20,7 @@ namespace MongoDotNet.Api.Controllers
         public ActionResult<List<IBook>> GetBooks() => this.bookServices.Read();
         
 
-        [HttpGet("{id}", Name="GetBook")]
+        [HttpGet("{id}", Name=nameof(GetBook))]
         public ActionResult<IBook> GetBook(String id) 
         {
             IBook book = this.bookServices.Read(id);
@@ -32,7 +31,7 @@ namespace MongoDotNet.Api.Controllers
         public ActionResult<IBook> AddBook([FromBody] AddBookRequest addBookRequest) 
         {
             IBook createdBook = this.bookServices.Create(addBookRequest);
-            return CreatedAtRoute("GetBook", new { id = createdBook.Id.ToString() }, createdBook);
+            return CreatedAtRoute(nameof(GetBook), new { id = createdBook.Id });
         }
 
     }

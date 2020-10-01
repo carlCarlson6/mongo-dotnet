@@ -3,6 +3,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MongoDotNet.Core\MongoDotNet.Core.csproj" />
     <ProjectReference Include="..\MongoDotNet.Repository\MongoDotNet.Repository.csproj" />
+    <ProjectReference Include="..\MongoDotNet.Common\MongoDotNet.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -7,20 +7,18 @@ using System.Linq;
 using System;
 using MongoDB.Bson;
 using MongoDotNet.Repository.Models;
-using MongoDotNet.Repository.DatabaseSettings;
-using System.ComponentModel;
 
 namespace MongoDotNet.Services
 {
     public class BookServices : ICrudService<IBook>
     {
         private readonly IMongoCollection<BookModel> booksMongoCollection;
-        public BookServices(IMongoDatabaseSettings settings) 
+        public BookServices(IMongoDatabaseSettings<IBook> settings) 
         {
             MongoClient client = new MongoClient(settings.ConnectionString);
             IMongoDatabase database = client.GetDatabase(settings.DatabaseName);
-
             this.booksMongoCollection = database.GetCollection<BookModel>(settings.CollectionName);
+            
         }
 
         public List<IBook> Read() 
@@ -52,5 +50,6 @@ namespace MongoDotNet.Services
         {
             this.booksMongoCollection.DeleteOne(book => book.Id == id);
         }
+
     }
 }

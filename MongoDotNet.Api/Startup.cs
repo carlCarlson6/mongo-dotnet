@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using MongoDotNet.Core.Models;
 using MongoDotNet.Core.Repository;
 using MongoDotNet.Repository.DatabaseSettings;
 using MongoDotNet.Services;
@@ -35,10 +36,11 @@ namespace MongoDotNet.Api
                 The IBookstoreDatabaseSettings interface is registered in DI with a singleton service lifetime. 
                 When injected, the interface instance resolves to a BookstoreDatabaseSettings object.
             */
-            services.AddSingleton<IMongoDatabaseSettings, BookstoreDatabaseSettings>(serviceProvider => serviceProvider.GetRequiredService<IOptions<BookstoreDatabaseSettings>>().Value);
-            services.AddSingleton<IMongoDatabaseSettings, UsersDatabaseSettings>(serviceProvider => serviceProvider.GetRequiredService<IOptions<UsersDatabaseSettings>>().Value);
+            services.AddSingleton<IMongoDatabaseSettings<IBook>, BookstoreDatabaseSettings>(serviceProvider => serviceProvider.GetRequiredService<IOptions<BookstoreDatabaseSettings>>().Value);
+            services.AddSingleton<IMongoDatabaseSettings<IUser>, UsersDatabaseSettings>(serviceProvider => serviceProvider.GetRequiredService<IOptions<UsersDatabaseSettings>>().Value);
 
 
+            services.AddSingleton<BookServices>();
             services.AddSingleton<BookServices>();
 
             services.AddControllers();

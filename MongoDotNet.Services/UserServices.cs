@@ -12,7 +12,6 @@ using MongoDotNet.Common;
 namespace MongoDotNet.Services
 {
     public class UserServices : ICrudService<IUser>
-    {
     {    
         private readonly IMongoCollection<UserModel> usersMongoCollection;
         private readonly PasswordUtils passwordUtils;

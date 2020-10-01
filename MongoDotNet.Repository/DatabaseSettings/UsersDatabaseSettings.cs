@@ -1,9 +1,9 @@
 using System;
 using MongoDotNet.Core.Repository;
 
-namespace MongoDotNet.Repository.Books
+namespace MongoDotNet.Repository.DatabaseSettings
 {
-    public class BookstoreDatabaseSettings : IMongoDatabaseSettings
+    public class UsersDatabaseSettings : IMongoDatabaseSettings
     {
         public String CollectionName { get; set; }
         public String ConnectionString { get; set; }

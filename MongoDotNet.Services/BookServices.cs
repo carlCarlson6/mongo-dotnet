@@ -3,17 +3,18 @@ using MongoDB.Driver;
 using MongoDotNet.Core.Repository;
 using MongoDotNet.Core.Models;
 using MongoDotNet.Core.Services;
-using MongoDotNet.Repository.Books.Models;
 using System.Linq;
 using System;
 using MongoDB.Bson;
+using MongoDotNet.Repository.Models;
+using MongoDotNet.Repository.DatabaseSettings;
+using System.ComponentModel;
 
 namespace MongoDotNet.Services
 {
     public class BookServices : ICrudService<IBook>
     {
         private readonly IMongoCollection<BookModel> booksMongoCollection;
-
         public BookServices(IMongoDatabaseSettings settings) 
         {
             MongoClient client = new MongoClient(settings.ConnectionString);
@@ -36,6 +37,7 @@ namespace MongoDotNet.Services
 
         public IBook Create(IBook book) 
         {
+            book.Id = ObjectId.GenerateNewId().ToString();
             this.booksMongoCollection.InsertOne(new BookModel(book));
             return book;
         }

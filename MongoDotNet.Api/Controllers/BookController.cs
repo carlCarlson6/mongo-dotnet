@@ -1,9 +1,9 @@
+using System.Runtime.Serialization;
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using MongoDotNet.Api.Models;
 using MongoDotNet.Core.Models;
-using MongoDotNet.Repository.Books.Models;
 using MongoDotNet.Services;
 
 namespace MongoDotNet.Api.Controllers
@@ -27,13 +27,12 @@ namespace MongoDotNet.Api.Controllers
         {
             IBook book = this.bookServices.Read(id);
             return new ActionResult<IBook>(book);
-        }   
-
+        }
+  
         [HttpPost]
         public ActionResult<IBook> AddBook([FromBody] AddBookRequest addBookRequest) 
         {
             IBook createdBook = this.bookServices.Create(addBookRequest);
-
             return CreatedAtRoute("GetBook", new { id = createdBook.Id.ToString() }, createdBook);
         }
 

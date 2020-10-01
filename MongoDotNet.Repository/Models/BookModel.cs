@@ -3,7 +3,7 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDotNet.Core.Models;
 
-namespace MongoDotNet.Repository.Books.Models
+namespace MongoDotNet.Repository.Models
 {
     public class BookModel : IBook
     {
@@ -22,6 +22,15 @@ namespace MongoDotNet.Repository.Books.Models
             this.Price = book.Price;
             this.Category = book.Category;
             this.Author = book.Author;
+        }
+
+        public BookModel(String id, String name, float price, String category, String author) 
+        {
+            this.Id = id;
+            this.Name = name;
+            this.Price = price;
+            this.Category = category;
+            this.Author = author;
         }
     }
 }

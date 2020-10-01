@@ -1,3 +1,5 @@
+using System;
+using System.ComponentModel;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -5,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using MongoDotNet.Core.Repository;
-using MongoDotNet.Repository.Books;
+using MongoDotNet.Repository.DatabaseSettings;
 using MongoDotNet.Services;
 
 namespace MongoDotNet.Api
@@ -27,12 +29,15 @@ namespace MongoDotNet.Api
                 For example, a BookstoreDatabaseSettings object's ConnectionString property is populated with the BookstoreDatabaseSettings:ConnectionString property in appsettings.json.
             */
             services.Configure<BookstoreDatabaseSettings>(Configuration.GetSection(nameof(BookstoreDatabaseSettings)));
+            services.Configure<UsersDatabaseSettings>(Configuration.GetSection(nameof(UsersDatabaseSettings)));
 
             /*
                 The IBookstoreDatabaseSettings interface is registered in DI with a singleton service lifetime. 
                 When injected, the interface instance resolves to a BookstoreDatabaseSettings object.
             */
-            services.AddSingleton<IMongoDatabaseSettings>(serviceProvider => serviceProvider.GetRequiredService<IOptions<BookstoreDatabaseSettings>>().Value);
+            services.AddSingleton<IMongoDatabaseSettings, BookstoreDatabaseSettings>(serviceProvider => serviceProvider.GetRequiredService<IOptions<BookstoreDatabaseSettings>>().Value);
+            services.AddSingleton<IMongoDatabaseSettings, UsersDatabaseSettings>(serviceProvider => serviceProvider.GetRequiredService<IOptions<UsersDatabaseSettings>>().Value);
+
 
             services.AddSingleton<BookServices>();
 
